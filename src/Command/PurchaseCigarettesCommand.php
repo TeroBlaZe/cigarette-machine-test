@@ -41,7 +41,7 @@ class PurchaseCigarettesCommand extends Command
         $cigaretteMachine = new CigaretteMachine();
         $purchase = $cigaretteMachine->execute(new PurchaseTransaction($itemCount, $amount));
 
-        $output->writeln(sprintf('You bought <info>%d</info> packs of cigarettes for <info>%.2f</info>, each for <info>%.2f</info>. ', $purchase->getItemQuantity(), $purchase->getTotalAmount(), CigaretteMachine::ITEM_PRICE));
+        $output->writeln(sprintf('You bought <info>%d</info> packs of cigarettes for <info>%.2f€</info>, each for <info>%.2f€</info>. ', $purchase->getItemQuantity(), $purchase->getTotalAmount(), CigaretteMachine::ITEM_PRICE));
         $output->writeln('Your change is:');
 
         $table = new Table($output);
