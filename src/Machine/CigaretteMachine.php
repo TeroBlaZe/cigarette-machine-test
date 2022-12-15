@@ -49,7 +49,8 @@ class CigaretteMachine implements MachineInterface
                 continue;
             }
             $changeForCoin = (int) ($changeAmount / $coin);
-            $changeAmount -= $coin * $changeForCoin;
+            $changeAmount = round($changeAmount - $coin * $changeForCoin, 2);
+
             $change[] = [
                 'Coin' => $coin,
                 'Amount' => $changeForCoin,
