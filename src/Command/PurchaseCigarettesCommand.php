@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Machine\CigaretteMachine;
+use App\Machine\PurchaseTransaction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class CigaretteMachine
+ *
  * @package App\Command
  */
 class PurchaseCigarettesCommand extends Command
@@ -24,7 +27,7 @@ class PurchaseCigarettesCommand extends Command
     }
 
     /**
-     * @param InputInterface   $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      *
      * @return int|null|void
@@ -35,22 +38,18 @@ class PurchaseCigarettesCommand extends Command
         $amount = (float) \str_replace(',', '.', $input->getArgument('amount'));
 
 
-        // $cigaretteMachine = new CigaretteMachine();
-        // ...
+        $cigaretteMachine = new CigaretteMachine();
+        $purchase = $cigaretteMachine->execute(new PurchaseTransaction($itemCount, $amount));
 
-        $output->writeln('You bought <info>...</info> packs of cigarettes for <info>...</info>, each for <info>...</info>. ');
+        $output->writeln(sprintf('You bought <info>%d</info> packs of cigarettes for <info>%.2f</info>, each for <info>%.2f</info>. ', $purchase->getItemQuantity(), $purchase->getTotalAmount(), CigaretteMachine::ITEM_PRICE));
         $output->writeln('Your change is:');
 
         $table = new Table($output);
         $table
-            ->setHeaders(array('Coins', 'Count'))
-            ->setRows(array(
-                // ...
-                array('0.02', '0'),
-                array('0.01', '0'),
-            ))
-        ;
+            ->setHeaders(['Coins', 'Count'])
+            ->setRows($purchase->getChange());
         $table->render();
 
+        return Command::SUCCESS;
     }
 }
