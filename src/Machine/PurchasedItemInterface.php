@@ -2,21 +2,11 @@
 
 namespace App\Machine;
 
-/**
- * Interface PurchasedItemInterface
- * @package App\Machine
- */
 interface PurchasedItemInterface
 {
-    /**
-     * @return integer
-     */
-    public function getItemQuantity();
+    public function getItemQuantity(): int;
 
-    /**
-     * @return float
-     */
-    public function getTotalAmount();
+    public function getTotalAmount(): float;
 
     /**
      * Returns the change in this format:
@@ -26,7 +16,7 @@ interface PurchasedItemInterface
      * 0.02 0
      * .... .....
      *
-     * @return array
+     * @return array<int, array<float,int>>
      */
-    public function getChange();
+    public function getChange(): array;
 }
